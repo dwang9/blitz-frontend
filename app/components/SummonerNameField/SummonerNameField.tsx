@@ -21,7 +21,7 @@ export const SummonerNameField = () => {
   const [summonerName, setSummonerName] = useState("");
   const matchHistory = useSelector(selectMatchHistory);
 
-  const handleSummonerNameChange = (event) => {
+  const handleSummonerNameChange = (event:any) => {
     setSummonerName(event.target.value);
   };
   const handleSummonerInfoConfirm = () => {
