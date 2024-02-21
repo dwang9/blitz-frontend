@@ -12,6 +12,8 @@ import {
   getMatchInfo,
   selectMatchHistory,
   selectSummonerInfo,
+  selectSummonerInfoStatus,
+  matchHistorySlice,
 } from "@/lib/redux";
 import styles from "./summonerName.module.css";
 
@@ -20,13 +22,23 @@ export const SummonerNameField = () => {
   const summonerInfo = useSelector(selectSummonerInfo);
   const [summonerName, setSummonerName] = useState("");
   const matchHistory = useSelector(selectMatchHistory);
+  const summonerInfoStatus = useSelector(selectSummonerInfoStatus);
+  const isFailed = summonerInfoStatus == 'failed'
 
   const handleSummonerNameChange = (event:any) => {
     setSummonerName(event.target.value);
   };
-  const handleSummonerInfoConfirm = () => {
+  const handleSummonerInfoSearch = () => {
+    dispatch(matchHistorySlice.actions.setMatchHistory([]))
+    dispatch(summonerInfoSlice.actions.setSummonerInfo({
+      id:"",
+      summonerName:"",
+      profileIcon:"",
+      rank:"",
+      summonerLevel:0,
+    }))
     dispatch(getSummonerInfo(summonerName))
-    dispatch(getMatchInfo({summonerName, endTime: 0, initialMatchHistory:matchHistory}))
+    dispatch(getMatchInfo({summonerName, endTime: 0, initialMatchHistory:[]}))
   };
   return (
     <div>
@@ -35,7 +47,7 @@ export const SummonerNameField = () => {
         <button
           className={styles.button}
           aria-label="SummonerName"
-          onClick={handleSummonerInfoConfirm}
+          onClick={handleSummonerInfoSearch}
         >
           Search
         </button>
@@ -63,6 +75,12 @@ export const SummonerNameField = () => {
           </tr>
         </tbody>
       </table>
+      {
+            isFailed && 
+            <div className={styles.row}>
+                <div className={styles.error}>There was an error loading summoner info</div>
+            </div>
+        }
     </div>
   );
 };

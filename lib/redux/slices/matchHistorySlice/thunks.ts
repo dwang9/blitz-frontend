@@ -10,7 +10,7 @@ export const getMatchInfo = createAppAsyncThunk(
 
     const response = await fetchMatchHistory(summonerName, endTime);
 
-    dispatch(matchHistorySlice.actions.setmatchHistory(initialMatchHistory.concat(response)))
+    dispatch(matchHistorySlice.actions.setMatchHistory(initialMatchHistory.concat(response)))
     // The value we return becomes the `fulfilled` action payload
     return response;
   },

@@ -1,5 +1,6 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { getSummonerInfo } from "./thunks";
 
 
 const initialState: SummonerInfoState = {
@@ -22,6 +23,18 @@ export const summonerInfoSlice = createSlice({
     setSummonerInfo: (state, action: PayloadAction<SummonerInfo>) => {
       state.summonerInfo = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getSummonerInfo.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getSummonerInfo.fulfilled, (state, action) => {
+        state.status = "idle";
+      })
+      .addCase(getSummonerInfo.rejected, (state, action) => {
+        state.status = "failed";
+      });
   },
 });
 

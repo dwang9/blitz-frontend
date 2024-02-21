@@ -24,6 +24,7 @@ export const MatchHistorySection = ({itemsPerPage}:any) => {
   const matchHistoryStatus = useSelector(selectMatchHistoryStatus);
   const lastMatchHistory = matchHistory[matchHistory.length - 1]
   const isLoading = matchHistoryStatus == 'loading'
+  const isFailed = matchHistoryStatus == 'failed'
 
   const handleLoadMore = (event:any) => {
     if (isLoading) { return }
@@ -60,7 +61,12 @@ export const MatchHistorySection = ({itemsPerPage}:any) => {
             ))}
             </tbody>
         </table>
-
+        {
+            isFailed && 
+            <div className={styles.row}>
+                <div className={styles.error}>There was an error loading match history</div>
+            </div>
+        }
         {
             isLoading && 
             <div className={styles.row}>

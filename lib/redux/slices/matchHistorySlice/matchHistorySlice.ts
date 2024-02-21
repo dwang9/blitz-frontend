@@ -14,7 +14,7 @@ export const matchHistorySlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    setmatchHistory: (state, action: PayloadAction<Array<MatchHistory>>) => {
+    setMatchHistory: (state, action: PayloadAction<Array<MatchHistory>>) => {
       state.matchHistory = action.payload;
     },
   },
@@ -25,6 +25,9 @@ export const matchHistorySlice = createSlice({
       })
       .addCase(getMatchInfo.fulfilled, (state, action) => {
         state.status = "idle";
+      })
+      .addCase(getMatchInfo.rejected, (state, action) => {
+        state.status = "failed";
       });
   },
 });
