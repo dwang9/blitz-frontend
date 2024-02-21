@@ -31,22 +31,38 @@ export const SummonerNameField = () => {
   return (
     <div>
       <div className={styles.row}>
-        <input type="text" name="summonerName" onChange={handleSummonerNameChange} />
+        <input  className={styles.summonerNameInput} type="text" name="summonerName" placeholder="Search Summoner Name" onChange={handleSummonerNameChange} />
         <button
           className={styles.button}
           aria-label="SummonerName"
           onClick={handleSummonerInfoConfirm}
         >
-          Confirm
+          Search
         </button>
       </div>
-      <div className={styles.row}>
-        <img className={styles.profile_pic} src={summonerInfo.profileIcon} />
-        <span className={styles.summoner_name}>{summonerInfo.summonerName}</span>
-        <span className={styles.value}>{summonerInfo.id}</span>
-        <span className={styles.value}>{summonerInfo.rank}</span>
-        <span className={styles.value}>{summonerInfo.summonerLevel}</span>
-      </div>
+      <table className={styles.table}>
+        <tbody>
+          <tr className={styles.tableRow}>
+            <th className={styles.tableHeader}></th>
+            <th className={styles.tableHeader}>Summoner Name</th>
+            <th className={styles.tableHeader}>ID</th>
+            <th className={styles.tableHeader}>Rank</th>
+            <th className={styles.tableHeader}>Summoner Level</th>
+          </tr>
+          <tr className={styles.tableRow}>
+            <td className={styles.tableCell}>
+              {
+                summonerInfo.profileIcon && 
+                <img className={styles.profile_pic} src={summonerInfo.profileIcon} />
+              }
+            </td>
+            <td className={styles.summoner_name + ' ' + styles.tableCell}>{summonerInfo.summonerName}</td>
+            <td className={styles.value + ' ' + styles.tableCell}>{summonerInfo.id}</td>
+            <td className={styles.value + ' ' + styles.tableCell}>{summonerInfo.rank}</td>
+            <td className={styles.value + ' ' + styles.tableCell}>{summonerInfo.summonerLevel}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };

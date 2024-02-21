@@ -1,5 +1,6 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { getMatchInfo } from "./thunks";
 
 
 const initialState: matchHistoryState = {
@@ -16,6 +17,15 @@ export const matchHistorySlice = createSlice({
     setmatchHistory: (state, action: PayloadAction<Array<MatchHistory>>) => {
       state.matchHistory = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getMatchInfo.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getMatchInfo.fulfilled, (state, action) => {
+        state.status = "idle";
+      });
   },
 });
 

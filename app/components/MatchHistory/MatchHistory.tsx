@@ -13,6 +13,7 @@ import {
   selectMatchHistory,
   MatchHistory,
   selectSummonerInfo,
+  selectMatchHistoryStatus,
 } from "@/lib/redux";
 import styles from "./matchHistory.module.css";
 
@@ -20,9 +21,12 @@ export const MatchHistorySection = ({itemsPerPage}:any) => {
   const dispatch = useDispatch();
   const matchHistory = useSelector(selectMatchHistory);
   const summonerInfo = useSelector(selectSummonerInfo);
+  const matchHistoryStatus = useSelector(selectMatchHistoryStatus);
   const lastMatchHistory = matchHistory[matchHistory.length - 1]
+  const isLoading = matchHistoryStatus == 'loading'
 
   const handleLoadMore = (event:any) => {
+    if (isLoading) { return }
     dispatch(getMatchInfo({summonerName:summonerInfo.summonerName, endTime: lastMatchHistory.matchDateTimestamp, initialMatchHistory:matchHistory}))
   };
   return (
@@ -56,7 +60,16 @@ export const MatchHistorySection = ({itemsPerPage}:any) => {
             ))}
             </tbody>
         </table>
-        <button onClick={handleLoadMore}> Load More</button>
+
+        {
+            isLoading && 
+            <div className={styles.row}>
+                <div className={styles.loader}></div>
+            </div>
+        }
+        <div className={styles.row}>
+            <button className={styles.loadButton} onClick={handleLoadMore}> Load More</button>
+        </div>
     </div>
     
   );
