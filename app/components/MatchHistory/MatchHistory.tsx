@@ -23,12 +23,13 @@ export const MatchHistorySection = ({itemsPerPage}:any) => {
   const summonerInfo = useSelector(selectSummonerInfo);
   const matchHistoryStatus = useSelector(selectMatchHistoryStatus);
   const lastMatchHistory = matchHistory[matchHistory.length - 1]
+  const endTime = lastMatchHistory ? lastMatchHistory.matchDateTimestamp : 0
   const isLoading = matchHistoryStatus == 'loading'
   const isFailed = matchHistoryStatus == 'failed'
 
   const handleLoadMore = (event:any) => {
     if (isLoading) { return }
-    dispatch(getMatchInfo({summonerName:summonerInfo.summonerName, endTime: lastMatchHistory.matchDateTimestamp, initialMatchHistory:matchHistory}))
+    dispatch(getMatchInfo({summonerName:summonerInfo.summonerName, endTime: endTime, initialMatchHistory:matchHistory}))
   };
   return (
     <div>
