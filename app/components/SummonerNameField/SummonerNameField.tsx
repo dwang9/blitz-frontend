@@ -13,6 +13,7 @@ import {
   selectMatchHistory,
   selectSummonerInfo,
   selectSummonerInfoStatus,
+  selectMatchHistoryStatus,
   matchHistorySlice,
 } from "@/lib/redux";
 import styles from "./summonerName.module.css";
@@ -22,13 +23,18 @@ export const SummonerNameField = () => {
   const summonerInfo = useSelector(selectSummonerInfo);
   const [summonerName, setSummonerName] = useState("");
   const matchHistory = useSelector(selectMatchHistory);
+  const matchHistoryStatus = useSelector(selectMatchHistoryStatus);
   const summonerInfoStatus = useSelector(selectSummonerInfoStatus);
   const isFailed = summonerInfoStatus == 'failed'
+  const isMatchHistoryLoading = matchHistoryStatus == 'loading'
 
   const handleSummonerNameChange = (event:any) => {
     setSummonerName(event.target.value);
   };
   const handleSummonerInfoSearch = () => {
+    if (isMatchHistoryLoading) {
+      return
+    }
     dispatch(matchHistorySlice.actions.setMatchHistory([]))
     dispatch(summonerInfoSlice.actions.setSummonerInfo({
       id:"",
